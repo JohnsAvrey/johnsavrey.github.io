@@ -54,12 +54,15 @@ fetch(`https://api.github.com/users/${username}/repos`)
         const project = document.createElement("div");
         project.className = "project";
 
-        // Special handling for Shapes repo
-        let demoLink = '';
-        if (repo.name.toLowerCase() === "shapes") {
-          demoLink = `https://johnsavrey.github.io/Shapes/`; // Use your main Pages URL + folder
-        } else {
-          demoLink = `https://${username.toLowerCase()}.github.io/${repo.name}/`;
+        // Default "Live Demo" link if Pages is enabled
+        let demoButton = '';
+        if (repo.has_pages) {
+          // Special case for Shapes if hosted inside johnsavrey.github.io
+          if (repo.name.toLowerCase() === "shapes") {
+            demoButton = `<a href="https://johnsavrey.github.io/Shapes/" target="_blank">Live Demo</a>`;
+          } else {
+            demoButton = `<a href="https://${username.toLowerCase()}.github.io/${repo.name}/" target="_blank">Live Demo</a>`;
+          }
         }
 
         project.innerHTML = `
@@ -68,7 +71,7 @@ fetch(`https://api.github.com/users/${username}/repos`)
 
           <div class="buttons">
             <a href="${repo.html_url}" target="_blank">View Code</a>
-            <a href="${demoLink}" target="_blank">Live Demo</a>
+            ${demoButton}
           </div>
         `;
 
