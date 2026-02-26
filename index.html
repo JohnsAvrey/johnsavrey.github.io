@@ -45,7 +45,6 @@ const username = "JohnsAvrey";
 fetch(`https://api.github.com/users/${username}/repos`)
   .then(response => response.json())
   .then(repos => {
-
     const container = document.getElementById("projects");
 
     repos
@@ -55,7 +54,13 @@ fetch(`https://api.github.com/users/${username}/repos`)
         const project = document.createElement("div");
         project.className = "project";
 
-        const demoLink = `https://${username.toLowerCase()}.github.io/${repo.name}`;
+        // Special handling for Shapes repo
+        let demoLink = '';
+        if (repo.name.toLowerCase() === "shapes") {
+          demoLink = `https://johnsavrey.github.io/Shapes/`; // Use your main Pages URL + folder
+        } else {
+          demoLink = `https://${username.toLowerCase()}.github.io/${repo.name}/`;
+        }
 
         project.innerHTML = `
           <h3>${repo.name}</h3>
@@ -68,7 +73,6 @@ fetch(`https://api.github.com/users/${username}/repos`)
         `;
 
         container.appendChild(project);
-
       });
   });
 </script>
