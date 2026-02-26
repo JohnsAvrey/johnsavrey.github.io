@@ -1,1 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Avrey Johns - Projects</title>
+    <style>
+        body {
+            font-family: Arial;
+            max-width: 800px;
+            margin: 40px auto;
+        }
 
+        .project {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .buttons a {
+            display: inline-block;
+            margin-right: 10px;
+            padding: 6px 10px;
+            background: #333;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+
+        .buttons a:hover {
+            background: #555;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>Avrey Johns</h1>
+<h2>My Projects</h2>
+
+<div id="projects"></div>
+
+<script>
+const username = "JohnsAvrey";
+
+fetch(`https://api.github.com/users/${username}/repos`)
+  .then(response => response.json())
+  .then(repos => {
+
+    const container = document.getElementById("projects");
+
+    repos
+      .filter(repo => !repo.fork) // hide forked repos
+      .forEach(repo => {
+
+        const project = document.createElement("div");
+        project.className = "project";
+
+        const demoLink = `https://${username.toLowerCase()}.github.io/${repo.name}`;
+
+        project.innerHTML = `
+          <h3>${repo.name}</h3>
+          <p>${repo.description || "No description provided."}</p>
+
+          <div class="buttons">
+            <a href="${repo.html_url}" target="_blank">View Code</a>
+            <a href="${demoLink}" target="_blank">Live Demo</a>
+          </div>
+        `;
+
+        container.appendChild(project);
+
+      });
+  });
+</script>
+
+</body>
+</html>
