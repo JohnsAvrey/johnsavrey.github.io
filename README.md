@@ -1,5 +1,4 @@
 # johnsavrey.github.io
 
-<a href = "https://github.com/JohnsAvrey/Shapes">
-  Shapes
-</a>
+[johnsavrey.github.io](https://johnsavrey.github.io)
+[Shapes](https://github.com/JohnsAvrey/Shapes)
