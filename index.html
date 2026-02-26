@@ -42,7 +42,9 @@
 <script>
 const username = "JohnsAvrey";
 
-fetch(`https://api.github.com/users/${username}/repos`)
+// Cache-busting timestamp to always get fresh repo data
+const timestamp = new Date().getTime();
+fetch(`https://api.github.com/users/${username}/repos?cache_bust=${timestamp}`)
   .then(response => response.json())
   .then(repos => {
     const container = document.getElementById("projects");
@@ -57,8 +59,8 @@ fetch(`https://api.github.com/users/${username}/repos`)
         // Default "Live Demo" link if Pages is enabled
         let demoButton = '';
         if (repo.has_pages) {
-          // Special case for Shapes if hosted inside johnsavrey.github.io
           if (repo.name.toLowerCase() === "shapes") {
+            // Special handling for Shapes repo hosted inside johnsavrey.github.io
             demoButton = `<a href="https://johnsavrey.github.io/Shapes/" target="_blank">Live Demo</a>`;
           } else {
             demoButton = `<a href="https://${username.toLowerCase()}.github.io/${repo.name}/" target="_blank">Live Demo</a>`;
@@ -78,6 +80,9 @@ fetch(`https://api.github.com/users/${username}/repos`)
         container.appendChild(project);
       });
   });
+
+// Optional: auto-refresh every 60 seconds to see updates immediately
+setTimeout(() => location.reload(), 60000);
 </script>
 
 </body>
