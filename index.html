@@ -3,12 +3,14 @@
 <head>
     <title>Avrey Johns - Projects</title>
     <style>
+        /* General page styling */
         body {
             font-family: Arial;
             max-width: 800px;
             margin: 40px auto;
         }
 
+        /* Each project card */
         .project {
             border: 1px solid #ddd;
             border-radius: 8px;
@@ -16,6 +18,7 @@
             margin-bottom: 15px;
         }
 
+        /* Buttons inside each project card */
         .buttons a {
             display: inline-block;
             margin-right: 10px;
@@ -26,6 +29,7 @@
             border-radius: 4px;
         }
 
+        /* Button hover effect */
         .buttons a:hover {
             background: #555;
         }
@@ -37,52 +41,69 @@
 <h1>Avrey Johns</h1>
 <h2>My Projects</h2>
 
+<!-- Container where all project cards will be added -->
 <div id="projects"></div>
 
 <script>
-const username = "JohnsAvrey";
+// ============================
+// 1. Define your projects here
+// ============================
+// Each project object has:
+// - name: title of the project
+// - description: short description
+// - codeUrl: GitHub repo link
+// - demoUrl: live demo link (leave empty if none)
+const projects = [
+    {
+        name: "NFL Passer Rating Calculator",
+        description: "C++ program to calculate NFL quarterback passer ratings.",
+        codeUrl: "https://github.com/JohnsAvrey/nfl-passer-rating",
+        demoUrl: "" // no live demo
+    },
+    {
+        name: "Coin Change Game",
+        description: "Interactive coin guessing game in C++.",
+        codeUrl: "https://github.com/JohnsAvrey/coin-change-game",
+        demoUrl: "" // optional
+    },
+    {
+        name: "Shapes",
+        description: "Shapes project hosted on GitHub Pages.",
+        codeUrl: "https://github.com/JohnsAvrey/Shapes",
+        demoUrl: "https://johnsavrey.github.io/Shapes/" // live demo
+    }
+];
 
-// Cache-busting timestamp to always get fresh repo data
-const timestamp = new Date().getTime();
-fetch(`https://api.github.com/users/${username}/repos?cache_bust=${timestamp}`)
-  .then(response => response.json())
-  .then(repos => {
-    const container = document.getElementById("projects");
+// ============================
+// 2. Grab the container element
+// ============================
+const container = document.getElementById("projects");
 
-    repos
-      .filter(repo => !repo.fork) // hide forked repos
-      .forEach(repo => {
+// ============================
+// 3. Loop through projects array
+// ============================
+// For each project, create a card with title, description, and buttons
+projects.forEach(proj => {
+    // Create a div element for this project
+    const projectDiv = document.createElement("div");
+    projectDiv.className = "project";
 
-        const project = document.createElement("div");
-        project.className = "project";
+    // Only create a "Live Demo" button if demoUrl exists
+    const demoButton = proj.demoUrl ? `<a href="${proj.demoUrl}" target="_blank">Live Demo</a>` : "";
 
-        // Default "Live Demo" link if Pages is enabled
-        let demoButton = '';
-        if (repo.has_pages) {
-          if (repo.name.toLowerCase() === "shapes") {
-            // Special handling for Shapes repo hosted inside johnsavrey.github.io
-            demoButton = `<a href="https://johnsavrey.github.io/Shapes/" target="_blank">Live Demo</a>`;
-          } else {
-            demoButton = `<a href="https://${username.toLowerCase()}.github.io/${repo.name}/" target="_blank">Live Demo</a>`;
-          }
-        }
-
-        project.innerHTML = `
-          <h3>${repo.name}</h3>
-          <p>${repo.description || "No description provided."}</p>
-
-          <div class="buttons">
-            <a href="${repo.html_url}" target="_blank">View Code</a>
+    // Fill the project div with HTML content
+    projectDiv.innerHTML = `
+        <h3>${proj.name}</h3>
+        <p>${proj.description || "No description provided."}</p>
+        <div class="buttons">
+            <a href="${proj.codeUrl}" target="_blank">View Code</a>
             ${demoButton}
-          </div>
-        `;
+        </div>
+    `;
 
-        container.appendChild(project);
-      });
-  });
-
-// Optional: auto-refresh every 60 seconds to see updates immediately
-setTimeout(() => location.reload(), 60000);
+    // Add the project card to the main container
+    container.appendChild(projectDiv);
+});
 </script>
 
 </body>
