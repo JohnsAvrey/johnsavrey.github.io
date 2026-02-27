@@ -119,14 +119,15 @@ projects.forEach(proj => {
     
     // Fill the project div with HTML content
     projectDiv.innerHTML = `
-        <h3>${proj.name}</h3>
-        <p>${proj.description || "No description provided."}</p>
-        ${notesHTML}
-        <div class="buttons">
-            <a href="${proj.codeUrl}" target="_blank">View Code</a>
-            ${demoButton}
-        </div>
-    `;
+    <h3>${proj.name}</h3>
+    <p>${proj.description || "No description provided."}</p>
+    ${techHTML}
+    ${notesHTML}
+    <div class="buttons">
+        <a href="${proj.codeUrl}" target="_blank">View Code</a>
+        ${demoButton}
+    </div>
+`;
 
     // Add the project card to the main container
     container.appendChild(projectDiv);
