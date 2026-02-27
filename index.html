@@ -99,6 +99,7 @@ const container = document.getElementById("projects");
 // 3. Loop through projects array
 // ============================
 projects.forEach(proj => {
+    
     const projectDiv = document.createElement("div");
     projectDiv.className = "project";
 
@@ -110,6 +111,11 @@ projects.forEach(proj => {
         ? `<h4>Meeting Notes:</h4><div class="meeting-notes">${proj.meetingNotes.map(note => `<pre>${note}</pre>`).join("")}</div>` 
         : "";
 
+      // Convert technologies array into badges
+    const techHTML = proj.technologies 
+        ? `<div class="technologies"><strong>Technologies Used:</strong> ${proj.technologies.map(tech => `<span>${tech}</span>`).join("")}</div>` 
+        : "";
+    
     // Fill the project div with HTML content
     projectDiv.innerHTML = `
         <h3>${proj.name}</h3>
