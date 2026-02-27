@@ -34,12 +34,13 @@
             background: #555;
         }
 
-        /* Style for multiline meeting notes */
+        /* Multiline meeting notes */
         .meeting-notes pre {
             background: #f5f5f5;
             padding: 10px;
             border-radius: 4px;
             overflow-x: auto;
+            margin-left: 20px; /* indent notes */
         }
     </style>
 </head>
@@ -49,26 +50,16 @@
 <h1>Avrey Johns</h1>
 <h2>My Projects</h2>
 
-<!-- Container where all project cards will be added -->
 <div id="projects"></div>
 
 <script>
-// ============================
-// 1. Define your projects here
-// ============================
-// Each project object has:
-// - name: title of the project
-// - description: short description
-// - codeUrl: GitHub repo link
-// - demoUrl: live demo link (leave empty if none)
-// - meetingNotes: array of multiline notes
 const projects = [
     {
         name: "AWS Cloud Project",
         description: "Contributed to DevOps team. Whole project consists of 25 total contributors.",
         codeUrl: "https://github.com/CarterRudolph2005/S26-AWS-Project.git",
-        demoUrl: "", // no live demo
-        technologies: ["AWS", " Bash", " JSON", " YAML", " Python", " JavaScript"],
+        demoUrl: "",
+        technologies: ["AWS", "Bash", "JSON", "YAML", "Python", "JavaScript"],
         meetingNotes: [
             `2026-02-20: Meeting #1
             - DevOps 1.1: Created the main S3 bucket for file uploads.
@@ -76,60 +67,50 @@ const projects = [
             - DevOps 1.3: Created the Cognito User Pool for login and authentication.
             - DevOps 1.4: Created an App Client in the User Pool without a client secret so the frontend can use it.
             - DevOps 1.5: Shared the S3 bucket name, User Pool ID, and App Client ID with the team.
-            - DevOps 1.6: Added CORS settings so the localhost frontend can connect to the bucket.`,
-            
-            `2026-00-00: Meeting #2
-            - ...`
+            - DevOps 1.6: Added CORS settings so the localhost frontend can connect to the bucket.`
         ]
     },
+    
     {
         name: "Shapes Calculator",
         description: "Calculates and displays area and perimeter of chosen shape (circle, triangle, or rectangle.)",
         codeUrl: "https://github.com/JohnsAvrey/Shapes",
         demoUrl: "https://johnsavrey.github.io/Shapes/",
-        technologies: ["CPP"],
+        technologies: ["C++"]
     }
 ];
 
-// ============================
-// 2. Grab the container element
-// ============================
 const container = document.getElementById("projects");
 
-// ============================
-// 3. Loop through projects array
-// ============================
 projects.forEach(proj => {
-    
     const projectDiv = document.createElement("div");
     projectDiv.className = "project";
 
-    // Only create a "Live Demo" button if demoUrl exists
+    // Demo button only if demoUrl exists
     const demoButton = proj.demoUrl ? `<a href="${proj.demoUrl}" target="_blank">Download Demo</a>` : "";
 
-    // Convert meeting notes array into <pre> blocks for multiline formatting
+    // Meeting notes rendered as <pre> for multiline
     const notesHTML = proj.meetingNotes 
         ? `<h4>Meeting Notes:</h4><div class="meeting-notes">${proj.meetingNotes.map(note => `<pre>${note}</pre>`).join("")}</div>` 
         : "";
 
-      // Convert technologies array into badges
+    // Technologies rendered as badges with inline spacing
     const techHTML = proj.technologies 
-        ? `<div class="technologies"><strong>Technologies Used:</strong> ${proj.technologies.map(tech => `<span>${tech}</span>`).join("")}</div>` 
+        ? `<div class="technologies"><strong>Technologies Used:</strong> ${proj.technologies.map(tech => `<span style="display:inline-block; background:#4caf50; color:white; padding:2px 8px; border-radius:4px; margin-right:5px;">${tech}</span>`).join("")}<br></div>` 
         : "";
-    
-    // Fill the project div with HTML content
-    projectDiv.innerHTML = `
-    <h3>${proj.name}</h3>
-    <p>${proj.description || "No description provided."}</p>
-    ${techHTML}
-    ${notesHTML}
-    <div class="buttons">
-        <a href="${proj.codeUrl}" target="_blank">View Code</a>
-        ${demoButton}
-    </div>
-`;
 
-    // Add the project card to the main container
+    // Fill project div content
+    projectDiv.innerHTML = `
+        <h3>${proj.name}</h3>
+        <p>${proj.description || "No description provided."}</p>
+        ${techHTML}
+        ${notesHTML}
+        <div class="buttons">
+            <a href="${proj.codeUrl}" target="_blank">View Code</a>
+            ${demoButton}
+        </div>
+    `;
+
     container.appendChild(projectDiv);
 });
 </script>
